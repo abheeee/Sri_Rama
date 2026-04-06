@@ -68,27 +68,7 @@ const HeroSection: React.FC = () => {
             </Link>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto md:mx-0">
-            {stats.map((stat, index) => (
-              <Card
-                key={index}
-                className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition"
-              >
-                <CardContent className="p-4 text-center">
-                  <div className={`${stat.color} w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2`}>
-                    <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                  </div>
-                  <div className="text-xl sm:text-2xl font-bold text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs sm:text-sm text-gray-300">
-                    {stat.label}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+         
 
         </div>
       </div>
