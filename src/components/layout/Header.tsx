@@ -4,9 +4,9 @@ import Navbar from './Navbar';
 
 const Header: React.FC = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 text-white shadow-md">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 " >
+        <div className="flex h-16 items-center justify-between ">
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
