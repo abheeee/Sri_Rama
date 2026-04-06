@@ -11,7 +11,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-r from-primary to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm sm:text-lg">SR</span>
+              <span className="text-white font-bold text-sm sm:text-lg">SRi Rama</span>
             </div>
 
             {/* Show small text even on mobile */}
