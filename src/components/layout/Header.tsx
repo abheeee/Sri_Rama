@@ -5,11 +5,9 @@ import Navbar from './Navbar';
 interface HeaderProps {
   onAboutClick: () => void;
 }
-
 const Header: React.FC<HeaderProps> = ({ onAboutClick }) => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b shadow-md bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 text-white">
-      
+    <header className="sticky top-0 z-50 w-full border-b shadow-md bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 text-white"> 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
 
@@ -28,9 +26,7 @@ const Header: React.FC<HeaderProps> = ({ onAboutClick }) => {
                 Degree College
               </p>
             </div>
-
           </Link>
-
           {/* 🔹 NAVBAR (PASS CLICK HANDLER) */}
           <Navbar onAboutClick={onAboutClick} />
 
