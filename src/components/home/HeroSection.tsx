@@ -1,28 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Calendar, Users, Award, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Card, CardContent } from '@/components/ui/card';
+
+const slides = [
+  'https://images.unsplash.com/photo-1562774053-701939374585?w=1920&h=1080&fit=crop',
+  'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1920&h=1080&fit=crop',
+  'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1920&h=1080&fit=crop',
+];
+
+const stats = [
+  { icon: Users, value: '5000+', label: 'Students', color: 'bg-blue-500' },
+  { icon: Award, value: '100+', label: 'Awards', color: 'bg-green-500' },
+  { icon: Calendar, value: '25+', label: 'Years', color: 'bg-orange-500' },
+];
 
 const HeroSection: React.FC = () => {
-  const stats = [
-    { icon: Users, value: '5000+', label: 'Students', color: 'bg-blue-500' },
-    { icon: Award, value: '100+', label: 'Awards', color: 'bg-green-500' },
-    { icon: Calendar, value: '25+', label: 'Years', color: 'bg-orange-500' },
-  ];
+  const [current, setCurrent] = useState(0);
+
+  const next = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
 
   return (
-    <section className="relative min-h-[80vh] md:min-h-[85vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[60vh] md:min-h-[65vh] flex items-center overflow-hidden">
 
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
-        <img
-          src="https://images.unsplash.com/photo-1562774053-701939374585?w=1920&h=1080&fit=crop"
-          alt="Campus"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {/* Background slides */}
+      {slides.map((src, i) => (
+        <div
+          key={i}
+          className={`absolute inset-0 z-0 transition-opacity duration-700 ${
+            i === current ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
+          <img
+            src={src}
+            alt={`Slide ${i + 1}`}
+            className={`w-full h-full object-cover transition-transform duration-[6000ms] ease-linear ${
+              i === current ? 'scale-110' : 'scale-100'
+            }`}
+          />
+        </div>
+      ))}
 
       {/* Content */}
       <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
@@ -30,10 +55,8 @@ const HeroSection: React.FC = () => {
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 mb-5">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-            <span className="text-white text-xs sm:text-sm font-medium">
-              Admissions Open 2024-25
-            </span>
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="text-white text-xs sm:text-sm font-medium">Admissions Open 2024-25</span>
           </div>
 
           {/* Title */}
@@ -44,9 +67,9 @@ const HeroSection: React.FC = () => {
             </span>
           </h1>
 
+          {/* Description */}
           <p className="text-sm sm:text-base md:text-xl text-gray-200 mb-6 md:mb-8 max-w-2xl mx-auto md:mx-0">
-            Empowering minds, shaping futures. Join us for quality education and holistic development.
-            Experience excellence with state-of-the-art facilities.
+            Blending heritage with education for a brighter tomorrow.
           </p>
 
           {/* Buttons */}
@@ -55,7 +78,6 @@ const HeroSection: React.FC = () => {
               Apply Now
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-
             <Link to="/contact" className="w-full sm:w-auto">
               <Button
                 size="lg"
@@ -67,13 +89,14 @@ const HeroSection: React.FC = () => {
               </Button>
             </Link>
           </div>
-
-         
-
         </div>
       </div>
 
       
+
+     
+      
+
     </section>
   );
 };
