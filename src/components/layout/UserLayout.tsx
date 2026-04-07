@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import AboutOverlay from "../AboutOverlay"; // adjust path if needed
 
 const UserLayout: React.FC = () => {
-  return (
-    <div className="min-h-screen w-full max-w-full flex flex-col overflow-x-hidden scroll-smooth bg-background">
-      <Header />
+  const [showAbout, setShowAbout] = useState(false);
 
-      <main className="flex-1 w-full max-w-full overflow-x-hidden pt-0">
+  const toggleAbout = () => {
+    setShowAbout((prev) => !prev);
+  };
+
+  return (
+    <div className="min-h-screen w-full flex flex-col bg-gray-100 text-black">
+
+      {/* 🔥 HEADER WITH CONTROL */}
+      <Header onAboutClick={toggleAbout} />
+
+      {/* 🔥 MAIN CONTENT */}
+      <main className="flex-1 relative w-full overflow-x-hidden">
+
         <Outlet />
+
+        {/* 🔥 ABOUT OVERLAY */}
+        {showAbout && <AboutOverlay onClose={toggleAbout} />}
+
       </main>
 
       <Footer />
+
     </div>
   );
 };

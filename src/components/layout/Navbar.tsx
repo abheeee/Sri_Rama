@@ -11,13 +11,17 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onAboutClick: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
+    { name: 'About', path: '/about' }, // special handling
     { name: 'Courses', path: '/courses' },
     { name: 'Admissions', path: '/admissions' },
     { name: 'Campus', path: '/campus' },
@@ -37,17 +41,29 @@ const Navbar: React.FC = () => {
             {navItems.map((item) => (
               <NavigationMenuItem key={item.name}>
                 <NavigationMenuLink asChild>
-                  <Link
-                    to={item.path}
-                    className={cn(
-                      "text-sm font-medium transition-colors hover:text-primary px-3 py-2 rounded-md",
-                      isActive(item.path)
-                        ? "text-primary bg-primary/10"
-                        : "text-muted-foreground"
-                    )}
-                  >
-                    {item.name}
-                  </Link>
+
+                  {/* 🔥 SPECIAL CASE FOR ABOUT */}
+                  {item.name === 'About' ? (
+                    <button
+                      onClick={onAboutClick}
+                      className="text-sm font-medium transition-colors hover:text-primary px-3 py-2 rounded-md text-muted-foreground"
+                    >
+                      {item.name}
+                    </button>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      className={cn(
+                        "text-sm font-medium transition-colors hover:text-primary px-3 py-2 rounded-md",
+                        isActive(item.path)
+                          ? "text-primary bg-primary/10"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
@@ -67,10 +83,7 @@ const Navbar: React.FC = () => {
           </Button>
         </SheetTrigger>
 
-        <SheetContent
-          side="right"
-          className="w-[85%] max-w-[320px] p-6"
-        >
+        <SheetContent side="right" className="w-[85%] max-w-[320px] p-6">
           <div className="flex flex-col h-full">
 
             {/* Header */}
@@ -89,19 +102,34 @@ const Navbar: React.FC = () => {
             {/* Nav Links */}
             <nav className="flex flex-col space-y-2 overflow-y-auto">
               {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "text-base font-medium transition-colors px-4 py-3 rounded-md",
-                    isActive(item.path)
-                      ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:bg-muted"
-                  )}
-                >
-                  {item.name}
-                </Link>
+
+                item.name === 'About' ? (
+                  <button
+                    key={item.name}
+                    onClick={() => {
+                      onAboutClick();
+                      setIsOpen(false);
+                    }}
+                    className="text-base font-medium px-4 py-3 rounded-md text-muted-foreground hover:bg-muted text-left"
+                  >
+                    {item.name}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "text-base font-medium transition-colors px-4 py-3 rounded-md",
+                      isActive(item.path)
+                        ? "text-primary bg-primary/10"
+                        : "text-muted-foreground hover:bg-muted"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                )
+
               ))}
             </nav>
 
