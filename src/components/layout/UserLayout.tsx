@@ -16,7 +16,6 @@ const UserLayout: React.FC = () => {
 
       {/* 🔥 HEADER WITH CONTROL */}
       <Header onAboutClick={toggleAbout} />
-
       {/* 🔥 MAIN CONTENT */}
       <main className="flex-1 relative w-full overflow-x-hidden">
 
