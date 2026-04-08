@@ -17,8 +17,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
-  const [activeDesktopDropdown, setActiveDesktopDropdown] = useState<string | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const location = useLocation();
 
@@ -29,174 +28,114 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
       name: 'About',
       path: '/about',
       dropdown: [
-        { name: 'Overview', path: '/about' },
-        { name: 'Affiliations', path: '/about/affiliations' },
-        { name: 'Governing Body', path: '/about/governing-body' },
-        { name: 'Principal Message', path: '/about/principal-message' },
-        { name: 'Faculty', path: '/about/faculty' },
-        { name: 'Location', path: '/about/location' },
-        { name: 'Scholarship', path: '/about/scholarship' },
+        'Overview',
+        'Affiliations',
+        'Governing Body',
+        'Principal Message',
+        'Faculty',
+        'Location',
+        'Scholarship',
       ],
     },
 
     {
       name: 'Courses',
       path: '/courses',
-      dropdown: [
-        { name: 'BCA', path: '/courses/bca' },
-        { name: 'BBA', path: '/courses/bba' },
-        { name: 'BCom', path: '/courses/bcom' },
-        { name: 'BA', path: '/courses/ba' },
-        { name: 'BSc', path: '/courses/bsc' },
-      ],
+      dropdown: ['BCA', 'BBA', 'BCom', 'BA', 'BSc'],
     },
 
     {
       name: 'Admissions',
       path: '/admissions',
       dropdown: [
-        { name: 'Admission Process', path: '/admissions/process' },
-        { name: 'Eligibility', path: '/admissions/eligibility' },
-        { name: 'Application Form', path: '/admissions/form' },
-        { name: 'Documents Required', path: '/admissions/documents' },
-        { name: 'Fee Details', path: '/admissions/fees' },
+        'Admission Process',
+        'Eligibility',
+        'Application Form',
+        'Documents Required',
+        'Fee Details',
       ],
     },
 
     {
       name: 'Campus',
       path: '/campus',
-      dropdown: [
-        { name: 'Library', path: '/campus/library' },
-        { name: 'Labs', path: '/campus/labs' },
-        { name: 'Hostel', path: '/campus/hostel' },
-        { name: 'Sports', path: '/campus/sports' },
-        { name: 'Transport', path: '/campus/transport' },
-      ],
+      dropdown: ['Library', 'Labs', 'Hostel', 'Sports', 'Transport'],
     },
 
     {
       name: 'Placements',
       path: '/placements',
       dropdown: [
-        { name: 'Placement Cell', path: '/placements/cell' },
-        { name: 'Recruiters', path: '/placements/recruiters' },
-        { name: 'Training Programs', path: '/placements/training' },
-        { name: 'Placement Stats', path: '/placements/stats' },
+        'Placement Cell',
+        'Recruiters',
+        'Training Programs',
+        'Placement Stats',
       ],
     },
 
     {
       name: 'IQAC',
       path: '/iqac',
-      dropdown: [
-        { name: 'IQAC Overview', path: '/iqac' },
-        { name: 'Committee', path: '/iqac/committee' },
-        { name: 'Reports', path: '/iqac/reports' },
-        { name: 'Activities', path: '/iqac/activities' },
-      ],
+      dropdown: ['Overview', 'Committee', 'Reports', 'Activities'],
     },
 
     {
       name: 'Contact',
       path: '/contact',
-      dropdown: [
-        { name: 'Contact Us', path: '/contact' },
-        { name: 'Location Map', path: '/contact/map' },
-        { name: 'Enquiry', path: '/contact/enquiry' },
-      ],
+      dropdown: ['Contact Us', 'Location Map', 'Enquiry'],
     },
   ];
 
   const isActive = (path: string) =>
     location.pathname === path || location.pathname.startsWith(path + '/');
 
-  const handleMobileDropdown = (name: string) => {
-    setOpenMobileDropdown((prev) => (prev === name ? null : name));
-  };
-
   return (
     <>
-      {/* Desktop Navigation */}
+      {/* Desktop */}
       <div className="hidden md:flex items-center space-x-6">
         <NavigationMenu>
           <NavigationMenuList>
+
             {navItems.map((item) => (
               <NavigationMenuItem
                 key={item.name}
                 className="relative"
-                onMouseEnter={() => item.dropdown && setActiveDesktopDropdown(item.name)}
-                onMouseLeave={() => item.dropdown && setActiveDesktopDropdown(null)}
+                onMouseEnter={() => setActiveDropdown(item.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.name === 'About' ? (
-                  <div className="relative">
-                    <button
-                      onClick={onAboutClick}
-                      className={cn(
-                        'flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-md text-white hover:text-yellow-300',
-                        isActive(item.path)
-                          ? 'text-white bg-white/20'
-                          : ''
-                      )}
-                    >
-                      {item.name}
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
 
-                    {item.dropdown && activeDesktopDropdown === item.name && (
-                      <div className="absolute left-0 top-full z-50 min-w-[240px] overflow-hidden rounded-md border bg-white shadow-lg">
-                        {item.dropdown.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            to={subItem.path}
-                            className="block px-4 py-3 text-sm text-slate-700 hover:bg-yellow-400 hover:text-black transition-colors"
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : item.dropdown ? (
-                  <div className="relative">
-                    <button
-                      className={cn(
-                        'flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-md text-white hover:text-yellow-300',
-                        isActive(item.path)
-                          ? 'text-white bg-white/20'
-                          : ''
-                      )}
-                    >
-                      {item.name}
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
+                {/* NAV ITEM */}
+                <div
+                  className={cn(
+                    "flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-md bg-transparent text-white hover:text-yellow-300 cursor-pointer",
+                    isActive(item.path) && "text-yellow-300"
+                  )}
+                  onClick={() => item.name === "About" && onAboutClick()}
+                >
+                  {item.name}
+                  {item.dropdown && <ChevronDown className="h-4 w-4" />}
+                </div>
 
-                    {activeDesktopDropdown === item.name && (
-                      <div className="absolute left-0 top-full z-50 min-w-[240px] overflow-hidden rounded-md border bg-white shadow-lg">
-                        {item.dropdown.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            to={subItem.path}
-                            className="block px-4 py-3 text-sm text-slate-700 hover:bg-yellow-400 hover:text-black transition-colors"
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
+                {/* DROPDOWN */}
+                {item.dropdown && activeDropdown === item.name && (
+                  <div className="absolute left-0 top-full z-50 min-w-[220px] rounded-md border bg-white shadow-lg overflow-hidden">
+
+                    {item.dropdown.map((sub, index) => (
+                      <Link
+                        key={index}
+                        to={item.path}
+                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-yellow-400 hover:text-black transition-colors"
+                      >
+                        {sub}
+                      </Link>
+                    ))}
+
                   </div>
-                ) : (
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to={item.path}
-                      className="text-sm font-medium px-3 py-2 rounded-md text-white hover:text-yellow-300"
-                    >
-                      {item.name}
-                    </Link>
-                  </NavigationMenuLink>
                 )}
+
               </NavigationMenuItem>
             ))}
+
           </NavigationMenuList>
         </NavigationMenu>
 
@@ -205,59 +144,26 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
         </Button>
       </div>
 
-      {/* Mobile Navigation (unchanged) */}
+      {/* Mobile */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild className="md:hidden">
-          <Button variant="ghost" size="icon" className="h-10 w-10 text-white">
-            <Menu className="h-6 w-6" />
+          <Button variant="ghost" size="icon" className="text-white">
+            <Menu />
           </Button>
         </SheetTrigger>
 
         <SheetContent side="right" className="w-[85%] max-w-[320px] p-6">
-          <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-bold text-lg">Sri Rama College</span>
-              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-                <X className="h-6 w-6" />
-              </Button>
-            </div>
-
-            <nav className="flex flex-col space-y-2 overflow-y-auto">
-              {navItems.map((item) => (
-                <div key={item.name}>
-                  {item.dropdown ? (
-                    <>
-                      <button
-                        onClick={() => handleMobileDropdown(item.name)}
-                        className="flex w-full justify-between px-4 py-3 text-left"
-                      >
-                        {item.name}
-                        <ChevronDown />
-                      </button>
-
-                      {openMobileDropdown === item.name && (
-                        <div className="ml-3">
-                          {item.dropdown.map((sub) => (
-                            <Link
-                              key={sub.name}
-                              to={sub.path}
-                              onClick={() => setIsOpen(false)}
-                              className="block px-4 py-2 text-sm"
-                            >
-                              {sub.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <Link to={item.path} onClick={() => setIsOpen(false)}>
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </nav>
+          <div className="flex flex-col gap-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsOpen(false)}
+                className="text-base font-medium text-gray-700"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
         </SheetContent>
       </Sheet>
