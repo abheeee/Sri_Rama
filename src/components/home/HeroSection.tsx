@@ -9,12 +9,6 @@ const slides = [
   'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1920&h=1080&fit=crop',
 ];
 
-const stats = [
-  { icon: Users, value: '5000+', label: 'Students', color: 'bg-blue-500' },
-  { icon: Award, value: '100+', label: 'Awards', color: 'bg-green-500' },
-  { icon: Calendar, value: '25+', label: 'Years', color: 'bg-orange-500' },
-];
-
 const HeroSection: React.FC = () => {
   const [current, setCurrent] = useState(0);
 
@@ -42,9 +36,8 @@ const HeroSection: React.FC = () => {
           <img
             src={src}
             alt={`Slide ${i + 1}`}
-            className={`w-full h-full object-cover transition-transform duration-[6000ms] ease-linear ${
-              i === current ? 'scale-110' : 'scale-100'
-            }`}
+            /* Removed scale-110 Ken Burns — causes horizontal overflow on mobile */
+            className="w-full h-full object-cover"
           />
         </div>
       ))}
@@ -74,7 +67,10 @@ const HeroSection: React.FC = () => {
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start mb-10">
-            <Button size="lg" className="bg-white text-primary hover:bg-gray-100 w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="bg-white text-primary hover:bg-gray-100 w-full sm:w-auto min-h-[48px] touch-manipulation"
+            >
               Apply Now
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -82,21 +78,29 @@ const HeroSection: React.FC = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white/10 w-full"
+                className="border-white text-white hover:bg-white/10 w-full min-h-[48px] touch-manipulation"
               >
                 Contact Us
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
+
+          {/* Slide dots */}
+          <div className="flex justify-center md:justify-start gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`rounded-full transition-all duration-300 touch-manipulation ${
+                  i === current ? 'bg-white w-6 h-2' : 'bg-white/40 w-2 h-2'
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
-
-      
-
-     
-      
-
     </section>
   );
 };
