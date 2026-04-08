@@ -4,6 +4,7 @@ import RankHolders from '../components/home/RankHolders';
 import Spotlight from '../components/home/Spotlight';
 import Testimonials from '../components/home/Testimonials';
 import PlacementSection from '../components/home/PlacementSection';
+import AboutCampus from '../components/home/AboutCampus';
 
 const Home: React.FC = () => {
   return (
@@ -17,7 +18,9 @@ const Home: React.FC = () => {
       <RankHolders />
       <Spotlight />
       <Testimonials />
+      <AboutCampus />
       <PlacementSection />
+      
 
     </div>
   );
