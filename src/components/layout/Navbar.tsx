@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
                     "flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-md bg-transparent text-white hover:text-yellow-300 cursor-pointer",
                     isActive(item.path) && "text-yellow-300"
                   )}
-                  onClick={() => item.name === "About" && onAboutClick()}
+                  onClick={() => undefined}
                 >
                   {item.name}
                   {item.dropdown && <ChevronDown className="h-4 w-4" />}
@@ -123,7 +123,10 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
                     {item.dropdown.map((sub, index) => (
                       <Link
                         key={index}
-                        to={item.path}
+                        to={sub === 'Location' ? '/about/location' : item.path}
+                        onClick={(e) => {
+                          if (sub !== 'Location') e.preventDefault();
+                        }}
                         className="block px-4 py-3 text-sm text-gray-700 hover:bg-yellow-400 hover:text-black transition-colors"
                       >
                         {sub}
@@ -158,7 +161,13 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
               <Link
                 key={item.name}
                 to={item.path}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => {
+                  if (item.name === 'About') {
+                    e.preventDefault();
+                    return;
+                  }
+                  setIsOpen(false);
+                }}
                 className="text-base font-medium text-gray-700"
               >
                 {item.name}

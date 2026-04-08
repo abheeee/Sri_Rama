@@ -1,87 +1,90 @@
 import React from "react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, MapPin, Phone } from "lucide-react";
 
 const LocationPage: React.FC = () => {
   return (
-    <div className="w-full">
+    <div className="bg-white min-h-screen">
 
       {/* 🔥 HERO SECTION */}
-      <div className="relative h-[350px] w-full">
-
-        {/* Background Image */}
+      <div className="relative h-[280px] w-full">
         <img
-          src="/college.jpg" // 👉 put your image in public folder
+          src="/college.jpg"
           alt="Sri Rama College"
           className="w-full h-full object-cover"
         />
 
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* Light overlay */}
+        <div className="absolute inset-0 bg-white/60"></div>
 
         {/* Text */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
-          <h1 className="text-4xl font-bold mb-2">
-            Our Location
-          </h1>
-          <p className="text-lg max-w-2xl">
-            Discover the serene and inspiring campus of Sri Rama College, Kalladka
-          </p>
+        <div className="absolute inset-0 flex items-center justify-center px-4">
+          <div className="inline-block text-center rounded-xl bg-white/40 backdrop-blur-md p-6 shadow-lg ring-1 ring-black/10">
+            <h1 className="text-3xl sm:text-4xl font-bold text-black/80">Our Location</h1>
+            <p className="text-gray-800/80 mt-2">Sri Rama College, Kalladka</p>
+          </div>
         </div>
       </div>
 
-      {/* 🔥 CONTENT SECTION */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      {/* 🔥 MAIN CONTENT */}
+      <div className="max-w-6xl mx-auto px-4 py-10">
 
-        {/* Description */}
-        <div className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4 text-black">About Our Campus</h2>
-          <p className="text-gray-600 leading-relaxed">
-            Sri Rama College, located in Kalladka, Bantwal Taluk of Dakshina Kannada district,
-            offers a peaceful and academically enriching environment. Surrounded by natural beauty,
-            the campus provides modern infrastructure, well-equipped classrooms, libraries, and
-            facilities that support holistic student development.
+        {/* DESCRIPTION */}
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-semibold mb-3 text-black">
+            About Our Campus
+          </h2>
+          <p className="text-gray-600">
+            Sri Rama College is located in Kalladka, Bantwal Taluk of Dakshina Kannada district.
+            The campus provides a peaceful and academic-friendly environment with modern facilities
+            and a strong focus on student development.
           </p>
         </div>
 
-        {/* Contact + Map (Card) */}
+        {/* 🔥 MAP + CONTACT */}
         <Card className="bg-white">
           <CardContent>
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start">
 
-              {/* Contact Info (Left) */}
-              <div>
-                <h2 className="text-2xl font-semibold mb-4 text-black">Contact Information</h2>
+              {/* CONTACT */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-black">Contact Us</h3>
 
-                <div className="text-gray-700 space-y-3">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-4 w-4 text-gray-600 mt-1" />
-                    <p>
-                      <strong>Address:</strong> Sri Rama College, Kalladka, Bantwal Taluk, Dakshina Kannada, Karnataka, India
-                    </p>
-                  </div>
+                <div className="flex items-start gap-3 text-gray-700">
+                  <MapPin className="text-primary mt-1 h-5 w-5" />
+                  <p>
+                    Sri Rama College, Kalladka<br />
+                    Bantwal Taluk, Dakshina Kannada<br />
+                    Karnataka, India
+                  </p>
+                </div>
 
-                  <div className="flex items-start gap-3">
-                    <Phone className="h-4 w-4 text-gray-600 mt-1" />
-                    <p><strong>Phone:</strong> +91 XXXXX XXXXX</p>
-                  </div>
+                <div className="flex items-center gap-3 text-gray-700">
+                  <Phone className="text-primary h-5 w-5" />
+                  <a className="hover:underline" href="tel:+919876543210">+91 9876543210</a>
+                </div>
 
-                  <div className="flex items-start gap-3">
-                    <Mail className="h-4 w-4 text-gray-600 mt-1" />
-                    <p><strong>Email:</strong> info@sriramacollege.edu</p>
-                  </div>
+                <div className="flex items-center gap-3 text-gray-700">
+                  <Mail className="text-primary h-5 w-5" />
+                  <a className="hover:underline" href="mailto:info@sriramacollege.edu">
+                    info@sriramacollege.edu
+                  </a>
+                </div>
+
+                <div className="flex items-center gap-3 text-gray-700">
+                  <Clock className="text-primary h-5 w-5" />
+                  <p>Mon - Sat: 9:00 AM – 5:00 PM</p>
                 </div>
               </div>
 
-              {/* Map (Right) */}
+              {/* MAP */}
               <div>
-                <h2 className="text-2xl font-semibold mb-4 text-black">Find Us on Map</h2>
-
-                <div className="w-full h-[400px] rounded-xl overflow-hidden shadow-lg">
+                <h3 className="text-xl font-semibold text-black mb-4">Find Us on Map</h3>
+                <div className="rounded-xl overflow-hidden shadow border">
                   <iframe
                     src="https://www.google.com/maps?q=Sri+Rama+College+Kalladka&output=embed"
                     width="100%"
-                    height="100%"
+                    height="320"
                     loading="lazy"
                     className="border-0"
                   ></iframe>
