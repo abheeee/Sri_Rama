@@ -10,6 +10,7 @@ function App() {
       <Routes>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
+         
         </Route>
       </Routes>
     </Router>
