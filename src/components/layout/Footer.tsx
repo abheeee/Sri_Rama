@@ -106,6 +106,13 @@ const Footer: React.FC = () => {
 
         </div>
 
+        {/* 🔥 DIVINE LINE */}
+        <div className="mt-8 text-center">
+          <p className="text-sm sm:text-lg md:text-xl font-bold tracking-wide bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,140,0,0.5)]">
+            Lokah Samasta Sukhino Bhavantu
+          </p>
+        </div>
+
         {/* Bottom */}
         <div className="border-t border-gray-800 mt-6 pt-4 text-center text-gray-400 text-xs sm:text-sm">
           <p>&copy; 2026 VINYASA. All rights reserved.</p>
