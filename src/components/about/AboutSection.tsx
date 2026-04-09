@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const aboutItemsLeft = [
   "About the Institution",
@@ -16,6 +16,7 @@ const aboutItemsRight = [
   "Faculty",
   "Location",
   "Affiliation",
+  "Scholarship",
   "Best Practices",
   "Institutional Distinctiveness",
   "Committees",
@@ -24,6 +25,37 @@ const aboutItemsRight = [
 const AboutSection: React.FC = () => {
   const [openItem, setOpenItem] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { section } = useParams();
+
+  const sectionToItem = useMemo(
+    () =>
+      ({
+        affiliations: "Affiliation",
+        "governing-body": "Governing Bodies",
+        "principal-message": "About The Principal",
+        scholarship: "Scholarship",
+      }) as Record<string, string>,
+    []
+  );
+
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+  useEffect(() => {
+    if (!section) return;
+    const item = sectionToItem[section];
+    if (!item) return;
+    setOpenItem(item);
+    queueMicrotask(() => {
+      document.getElementById(`about-${slugify(item)}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [section, sectionToItem]);
 
   const toggleItem = (item: string) => {
     setOpenItem(openItem === item ? null : item);
@@ -39,7 +71,7 @@ const AboutSection: React.FC = () => {
   };
 
   const renderItem = (item: string) => (
-    <div key={item} className="border-b border-gray-200">
+    <div id={`about-${slugify(item)}`} key={item} className="border-b border-gray-200">
       <button
         onClick={() => handleItemClick(item)}
         className="w-full flex justify-between items-center py-3 text-left text-gray-700 hover:text-black transition"

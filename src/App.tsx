@@ -8,7 +8,6 @@ import UserLayout from './components/layout/UserLayout';
 import Home from './page/Home';
 import AboutSection from './components/about/AboutSection';
 import LocationPage from './components/about/LocationPage';
-import Placements from "./page/placements/Placements";
 
 function App() {
   return (
@@ -17,9 +16,9 @@ function App() {
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutSection />} />
+          <Route path="/about/:section" element={<AboutSection />} />
+          <Route path="/about-us" element={<AboutPage />} />
           <Route path="/about/location" element={<LocationPage />} />
-           <Route path="/placements" element={<Placements />} />
-          
         </Route>
       </Routes>
     </Router>
