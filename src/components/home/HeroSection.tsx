@@ -1,105 +1,174 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, Users, Award, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
 
 const slides = [
-  'https://images.unsplash.com/photo-1562774053-701939374585?w=1920&h=1080&fit=crop',
-  'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1920&h=1080&fit=crop',
-  'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1920&h=1080&fit=crop',
+  "https://images.unsplash.com/photo-1562774053-701939374585?w=1920",
+  "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1920",
+  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1920",
 ];
 
 const HeroSection: React.FC = () => {
   const [current, setCurrent] = useState(0);
+  const [showTab, setShowTab] = useState(false);
 
-  const next = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % slides.length);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  // 🔁 Auto slide
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(next, 5000);
-    return () => clearInterval(timer);
-  }, [next]);
+  // 👉 Swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }
+    if (touchEndX.current - touchStartX.current > 50) {
+      setCurrent((prev) =>
+        prev === 0 ? slides.length - 1 : prev - 1
+      );
+    }
+  };
 
   return (
-    <section className="relative min-h-[60vh] md:min-h-[65vh] flex items-center overflow-hidden">
-
-      {/* Background slides */}
+    <section
+      className="relative h-screen w-full overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Slides */}
       {slides.map((src, i) => (
         <div
           key={i}
-          className={`absolute inset-0 z-0 transition-opacity duration-700 ${
-            i === current ? 'opacity-100' : 'opacity-0'
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            i === current ? "opacity-100 z-10" : "opacity-0"
           }`}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
+          {/* 🔥 Parallax + Zoom */}
           <img
             src={src}
-            alt={`Slide ${i + 1}`}
-            /* Removed scale-110 Ken Burns — causes horizontal overflow on mobile */
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-transform duration-[6000ms] ${
+              i === current ? "scale-110" : "scale-100"
+            }`}
           />
+
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-orange-900/60 to-orange-500/40" />
         </div>
       ))}
 
-      {/* Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-        <div className="max-w-3xl mx-auto md:mx-0 text-center md:text-left">
+    <div className="relative z-20 flex flex-col justify-start pt-6 px-5 sm:px-12 sm:justify-center sm:h-full">
+  <div className="max-w-4xl text-white">
 
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 mb-5">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-white text-xs sm:text-sm font-medium">Admissions Open 2024-25</span>
-          </div>
+    {/* 🔥 Glass Badge */}
+    <div className="inline-flex items-center gap-2 backdrop-blur-xl bg-white/10 border border-white/20 px-4 py-1.5 rounded-full mb-6 shadow-lg">
+      <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+      <span className="text-sm tracking-wide">
+        Admissions Open 2024-25
+      </span>
+    </div>
 
-          {/* Title */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-tight">
-            Welcome to{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Sri Rama
-            </span>
-          </h1>
+    {/* 🔥 Heading (FORCED SINGLE LINE) */}
+    <h1 className="whitespace-nowrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4">
 
-          {/* Description */}
-          <p className="text-sm sm:text-base md:text-xl text-gray-200 mb-6 md:mb-8 max-w-2xl mx-auto md:mx-0">
-            Blending heritage with education for a brighter tomorrow.
-          </p>
+      <span className="text-white drop-shadow-lg">
+        Welcome to{" "}
+      </span>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start mb-10">
-            <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-gray-100 w-full sm:w-auto min-h-[48px] touch-manipulation"
-            >
-              Apply Now
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Link to="/contact" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white/10 w-full min-h-[48px] touch-manipulation"
-              >
-                Contact Us
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+      <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(255,140,0,0.5)]">
+        Sri Rama
+      </span>
+    </h1>
 
-          {/* Slide dots */}
-          <div className="flex justify-center md:justify-start gap-2">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className={`rounded-full transition-all duration-300 touch-manipulation ${
-                  i === current ? 'bg-white w-6 h-2' : 'bg-white/40 w-2 h-2'
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
+    {/* ✨ Subtitle */}
+    <p className="text-gray-200 text-sm sm:text-base md:text-lg mb-8 max-w-2xl leading-relaxed">
+      Blending heritage with education for a brighter tomorrow.
+    </p>
+
+    {/* 🔥 Buttons (Glass + Glow) */}
+    <div className="flex flex-col sm:flex-row gap-4">
+
+      <button className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-lg hover:shadow-orange-500/40 hover:bg-orange-500/20 transition-all duration-300">
+        Apply Now →
+      </button>
+
+      <button className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-lg hover:shadow-orange-500/40 hover:bg-orange-500/20 transition-all duration-300">
+        Contact Us →
+      </button>
+
+    </div>
+  </div>
+</div>
+
+      {/* RIGHT SIDE (Desktop only) */}
+      <div className="hidden sm:flex absolute right-5 top-1/2 -translate-y-1/2 z-30 flex-col items-end gap-3">
+
+        {/* Buttons */}
+        <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-500/40 transition">
+          Academic Guidance for +2 Students
+        </button>
+
+        <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-500/40 transition">
+          Apply Management Quota
+        </button>
+
+        {/* 🔥 Auto-hide Notifications */}
+        <div
+          onMouseEnter={() => setShowTab(true)}
+          onMouseLeave={() => setShowTab(false)}
+          className="relative mt-4"
+        >
+          <div
+            className={`transition-all duration-500 ${
+              showTab ? "translate-x-0" : "translate-x-12"
+            }`}
+          >
+            <div className="bg-gradient-to-b from-orange-500 to-yellow-400 text-white px-3 py-6 rounded-l-xl shadow-lg">
+              <span className="[writing-mode:vertical-rl] rotate-180 font-semibold">
+                Notifications
+              </span>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* MOBILE ACTIONS */}
+      <div className="sm:hidden absolute bottom-16 left-1/2 -translate-x-1/2 w-[90%] z-30">
+        <div className="flex flex-col gap-3">
+          <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white py-2 rounded-lg">
+            Academic Guidance for +2 Students
+          </button>
+          <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white py-2 rounded-lg">
+            Apply Management Quota
+          </button>
+        </div>
+      </div>
+
+      {/* Dots */}
+      <div className="absolute bottom-5 w-full flex justify-center gap-2 z-30">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`rounded-full transition ${
+              i === current
+                ? "w-6 h-2 bg-orange-400"
+                : "w-3 h-3 bg-white/40"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );
