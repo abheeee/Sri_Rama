@@ -8,12 +8,10 @@ const slides = [
 
 const HeroSection: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const [showTab, setShowTab] = useState(false);
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // 🔁 Auto slide
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -21,7 +19,6 @@ const HeroSection: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // 👉 Swipe handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -43,7 +40,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <section
-      className="relative h-screen w-full overflow-hidden"
+    className="relative h-[65vh] sm:min-h-screen w-full overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -56,103 +53,70 @@ const HeroSection: React.FC = () => {
             i === current ? "opacity-100 z-10" : "opacity-0"
           }`}
         >
-          {/* 🔥 Parallax + Zoom */}
           <img
             src={src}
             className={`w-full h-full object-cover transition-transform duration-[6000ms] ${
               i === current ? "scale-110" : "scale-100"
             }`}
           />
-
-          {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-orange-900/60 to-orange-500/40" />
         </div>
       ))}
 
-    <div className="relative z-20 flex flex-col justify-start pt-6 px-5 sm:px-12 sm:justify-center sm:h-full">
-  <div className="max-w-4xl text-white">
+      {/* CONTENT */}
+      <div className="relative z-20 flex flex-col justify-start pt-10 px-5 sm:px-12 sm:justify-center sm:h-full">
+        <div className="max-w-4xl text-white">
 
-    {/* 🔥 Glass Badge */}
-    <div className="inline-flex items-center gap-2 backdrop-blur-xl bg-white/10 border border-white/20 px-4 py-1.5 rounded-full mb-6 shadow-lg">
-      <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
-      <span className="text-sm tracking-wide">
-        Admissions Open 2024-25
-      </span>
-    </div>
+          <div className="inline-flex items-center gap-2 backdrop-blur-xl bg-white/10 border border-white/20 px-4 py-1.5 rounded-full mb-6 shadow-lg">
+            <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+            <span className="text-sm tracking-wide">
+              Admissions Open 2024-25
+            </span>
+          </div>
 
-    {/* 🔥 Heading (FORCED SINGLE LINE) */}
-    <h1 className="whitespace-nowrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4">
+            <span className="text-white">Welcome to </span>
+            <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
+              Sri Rama
+            </span>
+          </h1>
 
-      <span className="text-white drop-shadow-lg">
-        Welcome to{" "}
-      </span>
+          <p className="text-gray-200 text-sm sm:text-base md:text-lg mb-8 max-w-2xl">
+            Blending heritage with education for a brighter tomorrow.
+          </p>
 
-      <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(255,140,0,0.5)]">
-        Sri Rama
-      </span>
-    </h1>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-lg hover:bg-orange-500/20 transition">
+              Apply Now →
+            </button>
 
-    {/* ✨ Subtitle */}
-    <p className="text-gray-200 text-sm sm:text-base md:text-lg mb-8 max-w-2xl leading-relaxed">
-      Blending heritage with education for a brighter tomorrow.
-    </p>
-
-    {/* 🔥 Buttons (Glass + Glow) */}
-    <div className="flex flex-col sm:flex-row gap-4">
-
-      <button className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-lg hover:shadow-orange-500/40 hover:bg-orange-500/20 transition-all duration-300">
-        Apply Now →
-      </button>
-
-      <button className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-lg hover:shadow-orange-500/40 hover:bg-orange-500/20 transition-all duration-300">
-        Contact Us →
-      </button>
-
-    </div>
-  </div>
-</div>
-
-      {/* RIGHT SIDE (Desktop only) */}
-      <div className="hidden sm:flex absolute right-5 top-1/2 -translate-y-1/2 z-30 flex-col items-end gap-3">
-
-        {/* Buttons */}
-        <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-500/40 transition">
-          Academic Guidance for +2 Students
-        </button>
-
-        <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-500/40 transition">
-          Apply Management Quota
-        </button>
-
-        {/* 🔥 Auto-hide Notifications */}
-        <div
-          onMouseEnter={() => setShowTab(true)}
-          onMouseLeave={() => setShowTab(false)}
-          className="relative mt-4"
-        >
-          <div
-            className={`transition-all duration-500 ${
-              showTab ? "translate-x-0" : "translate-x-12"
-            }`}
-          >
-            <div className="bg-gradient-to-b from-orange-500 to-yellow-400 text-white px-3 py-6 rounded-l-xl shadow-lg">
-              <span className="[writing-mode:vertical-rl] rotate-180 font-semibold">
-                Notifications
-              </span>
-            </div>
+            <button className="px-6 py-3 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-lg hover:bg-orange-500/20 transition">
+              Contact Us →
+            </button>
           </div>
         </div>
       </div>
 
-      {/* MOBILE ACTIONS */}
-      <div className="sm:hidden absolute bottom-16 left-1/2 -translate-x-1/2 w-[90%] z-30">
-        <div className="flex flex-col gap-3">
-          <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white py-2 rounded-lg">
-            Academic Guidance for +2 Students
-          </button>
-          <button className="backdrop-blur-lg bg-white/10 border border-white/20 text-white py-2 rounded-lg">
-            Apply Management Quota
-          </button>
+      {/* 🔥 DIVINE IMAGE */}
+      <div className="pointer-events-none absolute bottom-4 right-4 sm:bottom-6 sm:right-8 lg:bottom-10 lg:right-12 z-30">
+
+        <div className="relative flex items-center justify-center">
+
+          {/* 🌟 Rotating Aura Ring */}
+          <div className="absolute w-[140%] h-[140%] rounded-full border border-orange-400/40 animate-spin-slow" />
+
+          {/* 🔥 Pulsing Glow */}
+          <div className="absolute w-[120%] h-[120%] rounded-full bg-orange-500/20 blur-[40px] animate-pulse-slow" />
+
+          {/* ✨ Gradient Halo */}
+          <div className="absolute w-[160%] h-[160%] rounded-full bg-gradient-to-r from-orange-400/10 via-yellow-300/20 to-orange-500/10 blur-[80px]" />
+
+          {/* 🧘 Image */}
+         <img
+  src="https://i.pinimg.com/originals/43/47/be/4347be3795887d7e2bb0f7ea5d0aeaf0.jpg"
+  alt="Sri Rama"
+  className="w-[120px] sm:w-[160px] md:w-[200px] lg:w-[240px] xl:w-[260px] aspect-square object-cover object-[50%_30%] rounded-full border-4 border-orange-400/50 shadow-[0_0_50px_rgba(255,140,0,0.8)] animate-float"
+/>
         </div>
       </div>
 
