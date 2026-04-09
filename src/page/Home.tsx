@@ -20,8 +20,6 @@ const Home: React.FC = () => {
       <Testimonials />
       <AboutCampus />
       <PlacementSection />
-      
-
     </div>
   );
 };
