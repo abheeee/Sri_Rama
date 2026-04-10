@@ -44,9 +44,9 @@ const Placements = () => {
         </div>
       </section>
 
-      <PlacementStats />
       <RecruitersSection />
       <TrainingPrograms />
+      <PlacementStats />
     </div>
   );
 };

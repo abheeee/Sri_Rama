@@ -67,7 +67,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
       path: '/placements',
       dropdown: [
         'Placement Cell',
-        'Recruiters',
+        'Recruiters Section',
         'Training Programs',
         'Placement Stats',
       ],

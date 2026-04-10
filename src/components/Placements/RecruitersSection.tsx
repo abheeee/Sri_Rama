@@ -1,52 +1,54 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building2, Globe, Laptop2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 
-const recruiters = [
-  { name: "Infosys", role: "IT Services", icon: Laptop2 },
-  { name: "TCS", role: "Technology Services", icon: Building2 },
-  { name: "Wipro", role: "Software Solutions", icon: Globe },
-  { name: "Capgemini", role: "Consulting & IT", icon: Laptop2 },
-  { name: "HCL", role: "Engineering Services", icon: Building2 },
-  { name: "Cognizant", role: "Digital Services", icon: Globe },
-];
+import PlacementStats from "@/components/Placements/PlacementStats";
+import RecruitersSection from "@/components/Placements/RecruitersSection";
+import TrainingPrograms from "@/components/Placements/TrainingPrograms";
 
-const RecruitersSection = () => {
+const Placements = () => {
   return (
-    <section className="py-16 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="mb-10 text-center">
-          <Badge variant="secondary" className="mb-4">
-            Top Recruiters
-          </Badge>
-          <h2 className="text-3xl font-bold">Companies Visiting Our Campus</h2>
-          <p className="mt-3 text-muted-foreground">
-            Students get opportunities in leading companies from various sectors.
-          </p>
-        </div>
+    <div className="w-full">
+      <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background py-20 md:py-28">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <div className="mx-auto max-w-3xl">
+            <Badge variant="secondary" className="mb-4 px-4 py-1 text-sm">
+              Placements
+            </Badge>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {recruiters.map((company) => {
-            const Icon = company.icon;
-            return (
-              <Card key={company.name} className="rounded-2xl shadow-sm">
-                <CardContent className="flex items-center gap-4 p-6">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <Icon className="h-7 w-7" />
-                  </div>
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <BriefcaseBusiness className="h-8 w-8" />
+            </div>
 
-                  <div>
-                    <h3 className="text-lg font-semibold">{company.name}</h3>
-                    <p className="text-sm text-muted-foreground">{company.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+              Empowering Students for a Successful Career
+            </h1>
+
+            <p className="mt-5 text-base leading-7 text-muted-foreground md:text-lg">
+              Our placement cell bridges the gap between academic learning and
+              industry expectations by offering career guidance, training, and
+              campus recruitment opportunities.
+            </p>
+
+            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+              <Button size="lg" className="rounded-xl">
+                View Recruiters
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+
+              <Button size="lg" variant="outline" className="rounded-xl">
+                Explore Training
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <RecruitersSection />
+      <TrainingPrograms />
+      <PlacementStats />
+    </div>
   );
 };
 
-export default RecruitersSection;
+export default Placements;
