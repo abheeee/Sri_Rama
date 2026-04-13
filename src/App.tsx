@@ -7,8 +7,8 @@ import UserLayout from './components/layout/UserLayout';
 
 
 import Home from './page/Home';
-import Placements from './components/Placements'  ;
 
+import AboutPage from './page/About';
 
 import Campus from './components/campus/Campus';
 
@@ -19,7 +19,8 @@ function App() {
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/campus" element={<Campus />} />
-          <Route path="/Placements/PlacementHer" element={<Placements />} />
+          <Route path="/about/*" element={<AboutPage />} />
+         
         </Route>
       </Routes>
     </Router>

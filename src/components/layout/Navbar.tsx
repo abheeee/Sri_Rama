@@ -28,14 +28,12 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
       name: 'About',
       path: '/about',
       dropdown: [
-        'Overview',
-        'Affiliations',
-        'Governing Body',
-        'Principal Message',
-        'Faculty',
-        'Location',
-        'Scholarship',
-      ],
+  'About Us',
+  'Feedback',
+  'Governing Body',
+  'Principal Message',
+  'Location',
+],
     },
 
     {
@@ -132,11 +130,15 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
 {item.dropdown.map((sub, index) => {
   const isCampusItem = typeof sub === 'object';
   const label = isCampusItem ? sub.label : sub;
-  const to = isCampusItem
-    ? `/campus#${sub.key}`           // Campus → go to section
-    : sub === 'Location'
-    ? '/about/location'
-    : item.path;                     // all others unchanged
+const to = isCampusItem
+  ? `/campus#${sub.key}`
+  : item.name === 'About'
+  ? sub === 'About Us'
+    ? '/about'
+    : `/about#${sub.toLowerCase().replace(/\s+/g, '-')}`
+  : sub === 'Location'
+  ? '/about/location'
+  : item.path;                   // all others unchanged
 
   return (
 <Link
