@@ -33,11 +33,13 @@ const Navbar: React.FC = () => {
       name: "About",
       path: "/about",
       dropdown: [
-        "About Us",
-        "Feedback",
-        "Governing Body",
-        "Principal Message",
-        "Location",
+        'Overview',
+        'Affiliations',
+        'Governing Body',
+        'Principal Message',
+        'Faculty',
+        'Location',
+        'Scholarship',
       ],
     },
 
@@ -122,22 +124,39 @@ const Navbar: React.FC = () => {
                 {item.dropdown && activeDropdown === item.name && (
                   <div className="absolute left-0 top-full z-50 min-w-[220px] rounded-md border bg-white shadow-lg overflow-hidden">
 
-                    {item.dropdown.map((sub, index) => (
-                      <Link
-                        key={index}
-                        to={
-                          item.name === "About"
-                            ? sub === "About Us"
-                              ? "/about"
-                              : `/about#${slugify(sub)}`
-                            : `${item.path}/${slugify(sub)}`
-                        }
-                        onClick={() => setActiveDropdown(null)}
-                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-yellow-400 hover:text-black transition-colors"
-                      >
-                        {sub}
-                      </Link>
-                    ))}
+{item.dropdown.map((sub, index) => {
+  const isCampusItem = typeof sub === 'object';
+  const label = isCampusItem ? sub.label : sub;
+  const to = isCampusItem
+    ? `/campus#${sub.key}`           // Campus → go to section
+    : sub === 'Location'
+    ? '/about/location'
+    : item.path;                     // all others unchanged
+
+  return (
+<Link
+  key={index}
+  to={to}
+  onClick={() => {
+    if (isCampusItem) {
+      setActiveDropdown(null); // close dropdown
+      const key = sub.key;
+      // small delay to let navigation happen first
+      setTimeout(() => {
+        const el = document.querySelector(`[data-section="${key}"]`) as HTMLElement;
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 172;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }}
+  className="block px-4 py-3 text-sm text-gray-700 hover:bg-yellow-400 hover:text-black transition-colors"
+>
+  {label}
+</Link>
+  );
+})}
 
                   </div>
                 )}
