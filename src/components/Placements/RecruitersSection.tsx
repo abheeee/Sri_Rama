@@ -1,54 +1,66 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, BriefcaseBusiness } from "lucide-react";
+import { Building2, Globe, Laptop2 } from "lucide-react";
 
-import PlacementStats from "@/components/Placements/PlacementStats";
-import RecruitersSection from "@/components/Placements/RecruitersSection";
-import TrainingPrograms from "@/components/Placements/TrainingPrograms";
+const recruiters = [
+  { name: "Infosys", role: "IT Services & Consulting", icon: Laptop2 },
+  { name: "TCS", role: "Technology Services", icon: Building2 },
+  { name: "Wipro", role: "Software Solutions", icon: Globe },
+  { name: "Capgemini", role: "Consulting & IT Services", icon: Laptop2 },
+  { name: "HCL", role: "Engineering & Technology", icon: Building2 },
+  { name: "Cognizant", role: "Digital & Technology Services", icon: Globe },
+];
 
-const Placements = () => {
+const RecruitersSection = () => {
   return (
-    <div className="w-full">
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background py-20 md:py-28">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <div className="mx-auto max-w-3xl">
-            <Badge variant="secondary" className="mb-4 px-4 py-1 text-sm">
-              Placements
-            </Badge>
+    <section
+      id="recruiters"
+      className="w-full scroll-mt-28 bg-background py-16 md:py-20"
+    >
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="mb-10 text-center">
+          <Badge variant="secondary" className="mb-4 px-4 py-1 text-sm">
+            Top Recruiters
+          </Badge>
 
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-              <BriefcaseBusiness className="h-8 w-8" />
-            </div>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+            Companies Visiting Our Campus
+          </h2>
 
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Empowering Students for a Successful Career
-            </h1>
-
-            <p className="mt-5 text-base leading-7 text-muted-foreground md:text-lg">
-              Our placement cell bridges the gap between academic learning and
-              industry expectations by offering career guidance, training, and
-              campus recruitment opportunities.
-            </p>
-
-            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-              <Button size="lg" className="rounded-xl">
-                View Recruiters
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-
-              <Button size="lg" variant="outline" className="rounded-xl">
-                Explore Training
-              </Button>
-            </div>
-          </div>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            Our students receive opportunities from reputed companies across
+            various sectors.
+          </p>
         </div>
-      </section>
 
-      <RecruitersSection />
-      <TrainingPrograms />
-      <PlacementStats />
-    </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {recruiters.map((company) => {
+            const Icon = company.icon;
+
+            return (
+              <Card
+                key={company.name}
+                className="rounded-2xl border bg-background shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              >
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Icon className="h-7 w-7" />
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold">{company.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {company.role}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 };
 
-export default Placements;
+export default RecruitersSection;
