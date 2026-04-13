@@ -14,8 +14,10 @@ function App() {
       <Routes>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/about/*" element={<AboutPage />} />
-          <Route path="/about-us" element={<Navigate to="/about" replace />} />
+          <Route path="/about" element={<AboutSection />} />
+          <Route path="/about/:section" element={<AboutSection />} />
+          <Route path="/about-us" element={<AboutPage />} />
+          <Route path="/about/location" element={<LocationPage />} />
         </Route>
       </Routes>
     </Router>
