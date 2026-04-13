@@ -1,43 +1,48 @@
-import React from "react";
+import { useEffect, useMemo, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 
-// Import ALL sections
-import AboutUs from "../components/about/Aboutus";
-import Feedback from "../components/about/Feedback";
-import LocationPage from "../components/about/LocationPage";
-import GoverningBodyPage from "../components/about/GoverningBody";
-import PrincipalMessage from "../components/about/PrincipalMessage";
-import ScholarshipPage from "../components/about/ScholarshipPage";
+import AboutUs from "@/components/about/Aboutus";
+import FeedbackPage from "@/components/about/Feedback";
+import GoverningBodyPage from "@/components/about/GoverningBody";
+import PrincipalMessage from "@/components/about/PrincipalMessage";
+import LocationPage from "@/components/about/LocationPage";
 
-const AboutPage: React.FC = () => {
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+type AboutSection = "about-us" | "feedback" | "governing-body" | "principal-message" | "location";
 
-      {/* 🔥 HERO HEADER */}
-      <div className="bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600 py-16 text-center text-white shadow-lg">
-        <h1 className="text-5xl font-bold">About Our Institution</h1>
-        <p className="mt-4 text-lg opacity-90">
-          Discover everything about our college
-        </p>
-      </div>
-
-      {/* 🔹 ALL SECTIONS (LIKE HOME PAGE) */}
-      <div className="flex flex-col gap-16 py-10 px-4 md:px-10">
-
-        <AboutUs />
-
-        <GoverningBodyPage />
-
-        <PrincipalMessage />
-
-        <ScholarshipPage />
-
-        <Feedback />
-
-        <LocationPage />
-
-      </div>
-    </div>
-  );
+const SECTION_COMPONENTS: Record<AboutSection, ReactNode> = {
+  "about-us": <AboutUs />,
+  feedback: <FeedbackPage />,
+  "governing-body": <GoverningBodyPage />,
+  "principal-message": <PrincipalMessage />,
+  location: <LocationPage />,
 };
 
-export default AboutPage;
+function slugify(label: string) {
+  return label
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
+export default function AboutPage() {
+  const location = useLocation();
+
+  const hashSection = useMemo(() => {
+    const raw = (location.hash ?? "").replace(/^#/, "");
+    return raw ? slugify(raw) : "";
+  }, [location.hash]);
+
+  const selected = useMemo(() => {
+    const key = ((hashSection || "about-us").toLowerCase() as AboutSection);
+    return SECTION_COMPONENTS[key] ?? SECTION_COMPONENTS["about-us"];
+  }, [hashSection]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [hashSection]);
+
+  return <>{selected}</>;
+}

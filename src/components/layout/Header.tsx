@@ -1,15 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import logo from "@/assets/logo1.jpeg"; 
 
 const Header: React.FC = () => {
-  const navigate = useNavigate();
-
-  const handleAboutClick = () => {
-    navigate('/about');
-  };
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
       {/* TOP NAVBAR */}
@@ -39,7 +33,7 @@ const Header: React.FC = () => {
   </div>
 </Link>
           {/* Navbar */}
-          <Navbar onAboutClick={handleAboutClick} />
+          <Navbar />
         </div>
       </div>
 
