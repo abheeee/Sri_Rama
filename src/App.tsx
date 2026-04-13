@@ -19,6 +19,8 @@ function App() {
           <Route path="/about/:section" element={<AboutSection />} />
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/about/location" element={<LocationPage />} />
+          
+          
         </Route>
       </Routes>
     </Router>
