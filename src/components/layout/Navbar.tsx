@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -19,17 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const aboutDropdownTo: Record<string, string> = {
-    "About Us": "/about-us",
-    Feedback: "/about/feedback",
-    Affiliations: "/about/affiliations",
-    "Governing Body": "/about/governing-body",
-    "Principal Message": "/about/principal-message",
-    Location: "/about/location",
-    Scholarship: "/about/scholarship",
-  };
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -38,10 +28,11 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
       name: 'About',
       path: '/about',
       dropdown: [
-        'About Us',
-        'Feedback',
+        'Overview',
+        'Affiliations',
         'Governing Body',
         'Principal Message',
+        'Faculty',
         'Location',
         'Scholarship',
       ],
@@ -65,18 +56,27 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
       ],
     },
 
-    {
-      name: 'Campus',
-      path: '/campus',
-      dropdown: ['Library', 'Labs', 'Hostel', 'Sports', 'Transport'],
-    },
+   {
+  name: 'Campus',
+  path: '/campus',
+  dropdown: [
+    { label: 'Campus Building', key: 'campusBuilding' },
+    { label: 'Classrooms',      key: 'classrooms' },
+    { label: 'Hostel',          key: 'hostel' },
+    { label: 'Labs',            key: 'labs' },
+    { label: 'Recreational',    key: 'recreational' },
+    { label: 'Seminar Halls',   key: 'seminar' },
+    { label: 'Sports & Games',  key: 'sports' },
+    { label: 'Transportation',  key: 'transport' },
+  ],
+},
 
     {
       name: 'Placements',
       path: '/placements',
       dropdown: [
         'Placement Cell',
-        'Recruiters Section',
+        'Recruiters',
         'Training Programs',
         'Placement Stats',
       ],
@@ -119,14 +119,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
                     "flex items-center gap-1 text-sm font-medium px-3 py-2 rounded-md bg-transparent text-white hover:text-yellow-300 cursor-pointer",
                     isActive(item.path) && "text-yellow-300"
                   )}
-                  onClick={() => {
-                    setActiveDropdown(null);
-                    if (item.name === 'About') {
-                      onAboutClick();
-                      return;
-                    }
-                    navigate(item.path);
-                  }}
+                  onClick={() => undefined}
                 >
                   {item.name}
                   {item.dropdown && <ChevronDown className="h-4 w-4" />}
@@ -136,20 +129,39 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
                 {item.dropdown && activeDropdown === item.name && (
                   <div className="absolute left-0 top-full z-50 min-w-[220px] rounded-md border bg-white shadow-lg overflow-hidden">
 
-                    {item.dropdown.map((sub, index) => (
-                      <Link
-                        key={index}
-                        to={
-                          item.name === 'About'
-                            ? (aboutDropdownTo[sub] ?? item.path)
-                            : `${item.path}/${sub.toLowerCase().replace(/\s+/g, '-')}`
-                        }
-                        onClick={() => setActiveDropdown(null)}
-                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-yellow-400 hover:text-black transition-colors"
-                      >
-                        {sub}
-                      </Link>
-                    ))}
+{item.dropdown.map((sub, index) => {
+  const isCampusItem = typeof sub === 'object';
+  const label = isCampusItem ? sub.label : sub;
+  const to = isCampusItem
+    ? `/campus#${sub.key}`           // Campus → go to section
+    : sub === 'Location'
+    ? '/about/location'
+    : item.path;                     // all others unchanged
+
+  return (
+<Link
+  key={index}
+  to={to}
+  onClick={() => {
+    if (isCampusItem) {
+      setActiveDropdown(null); // close dropdown
+      const key = sub.key;
+      // small delay to let navigation happen first
+      setTimeout(() => {
+        const el = document.querySelector(`[data-section="${key}"]`) as HTMLElement;
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 172;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }}
+  className="block px-4 py-3 text-sm text-gray-700 hover:bg-yellow-400 hover:text-black transition-colors"
+>
+  {label}
+</Link>
+  );
+})}
 
                   </div>
                 )}
@@ -179,7 +191,13 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
               <Link
                 key={item.name}
                 to={item.path}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => {
+                  if (item.name === 'About') {
+                    e.preventDefault();
+                    return;
+                  }
+                  setIsOpen(false);
+                }}
                 className="text-base font-medium text-gray-700"
               >
                 {item.name}

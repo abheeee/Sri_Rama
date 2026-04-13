@@ -1,16 +1,18 @@
-export default function Recreational() {
-  return (
-    <section className="py-16 px-6 md:px-12">
-      <h2 className="text-3xl font-bold mb-4 text-[#00d4c8]">Recreational Area</h2>
+import { CampusCard } from "./Campus";
 
-      <p className="text-white/70 max-w-3xl">
-        Green spaces and relaxation zones for students to unwind and socialize.
-      </p>
-
-      <img
-        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-        className="mt-6 rounded-xl w-full h-72 object-cover"
-      />
-    </section>
-  );
-}
+const RecreationalArea = () => (
+ <div
+  className="campus-grid"
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "1.5rem",
+  }}
+>
+    <CampusCard image="https://images.unsplash.com/photo-1506126613408-eca07ce68773" label="Yoga & Meditation" description="A serene dedicated space for daily yoga, mindfulness, and stress relief." />
+    <CampusCard image="https://images.unsplash.com/photo-1571902943202-507ec2618e8f" label="Gymnasium" description="Modern fitness centre with cardio equipment, free weights, and trained instructors." />
+    <CampusCard image="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" label="Student Lounge" description="A relaxed hangout space for students to unwind between classes." />
+    <CampusCard image="https://images.unsplash.com/photo-1565118531796-763e5082d113" label="Open Air Theatre" description="Scenic outdoor stage hosting cultural evenings, fests, and student performances." />
+  </div>
+);
+export default RecreationalArea;
