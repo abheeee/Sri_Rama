@@ -4,8 +4,10 @@ import UserLayout from './components/layout/UserLayout';
 
 
 
+
 // Pages
 import Home from './page/Home';
+import PlacementsPage from "./page/PlacementsPage";
 import AboutSection from './components/about/AboutSection';
 import LocationPage from './components/about/LocationPage';
 
@@ -19,6 +21,7 @@ function App() {
           <Route path="/about/:section" element={<AboutSection />} />
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/about/location" element={<LocationPage />} />
+          <Route path="/placements" element={<PlacementsPage />} />
           
           
         </Route>
