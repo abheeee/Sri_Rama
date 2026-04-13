@@ -25,8 +25,10 @@ const LocationPage: React.FC = () => {
               <h1 className="text-4xl md:text-5xl font-bold uppercase text-white drop-shadow-lg leading-tight">
                 OUR LOCATION
               </h1>
-              <p className="mt-4 text-sm tracking-widest uppercase text-white/80">
-                HOME » ABOUT » LOCATION
+
+              <p className="mt-4 max-w-3xl text-base md:text-lg text-white/90">
+                Find us in Kalladka, Bantwal Taluk — a peaceful campus setting
+                designed for focused learning and student growth.
               </p>
             </div>
           </div>

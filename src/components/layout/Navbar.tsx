@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAboutClick }) => {
 
   const aboutDropdownTo: Record<string, string> = {
     "About Us": "/about-us",
-    Feedback: "/feedback",
+    Feedback: "/about/feedback",
     Affiliations: "/about/affiliations",
     "Governing Body": "/about/governing-body",
     "Principal Message": "/about/principal-message",
